@@ -24,7 +24,6 @@
 		22E3790D2DD097890031B5AD /* olympics.json in Resources */ = {isa = PBXBuildFile; fileRef = 22E3790C2DD097880031B5AD /* olympics.json */; };
 		22E3790F2DD099640031B5AD /* ViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E3790E2DD099640031B5AD /* ViewController1.swift */; };
 		22E379512DD0A5A00031B5AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 22E379502DD0A5A00031B5AD /* Kingfisher */; };
-		22E6FDBB2DD0C93C009CF4A0 /* MyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6FDBA2DD0C93C009CF4A0 /* MyTabBarController.swift */; };
 		22E6FDBD2DD0CB80009CF4A0 /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */; };
 		22EB72582DD073C8003548F2 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EB72572DD073C8003548F2 /* MyPageViewController.swift */; };
 /* End PBXBuildFile section */
@@ -64,7 +63,6 @@
 		22E3790A2DD097640031B5AD /* balls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = balls.json; path = ../../../Downloads/balls.json; sourceTree = "<group>"; };
 		22E3790C2DD097880031B5AD /* olympics.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = olympics.json; path = ../../../Downloads/olympics.json; sourceTree = "<group>"; };
 		22E3790E2DD099640031B5AD /* ViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController1.swift; sourceTree = "<group>"; };
-		22E6FDBA2DD0C93C009CF4A0 /* MyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MyTabBarController.swift; path = ../../../MyTabBarController.swift; sourceTree = "<group>"; };
 		22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController3.swift; path = ../../../ViewController3.swift; sourceTree = "<group>"; };
 		22EB72572DD073C8003548F2 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,14 +119,12 @@
 		22982BFC2DCF7DD500876FC1 /* Sports */ = {
 			isa = PBXGroup;
 			children = (
+				22E6FDBF2DD0E4C3009CF4A0 /* App */,
 				22E379062DD094220031B5AD /* Models */,
 				22E379082DD094AD0031B5AD /* Views */,
 				22982C302DCFE34100876FC1 /* Supporting Files */,
 				22E379092DD0971E0031B5AD /* Assets */,
 				22982C012DCF7DD500876FC1 /* ViewController.swift */,
-				22982BFF2DCF7DD500876FC1 /* SceneDelegate.swift */,
-				22982BFD2DCF7DD500876FC1 /* AppDelegate.swift */,
-				22EB72572DD073C8003548F2 /* MyPageViewController.swift */,
 				22982C0E2DCF7E0000876FC1 /* Info.plist */,
 				22982C062DCF7DD600876FC1 /* Sports.xcdatamodeld */,
 			);
@@ -189,11 +185,20 @@
 		22E6FDB92DD0C8F3009CF4A0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				22E6FDBA2DD0C93C009CF4A0 /* MyTabBarController.swift */,
+				22EB72572DD073C8003548F2 /* MyPageViewController.swift */,
 				22E3790E2DD099640031B5AD /* ViewController1.swift */,
 				22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		22E6FDBF2DD0E4C3009CF4A0 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				22982BFF2DCF7DD500876FC1 /* SceneDelegate.swift */,
+				22982BFD2DCF7DD500876FC1 /* AppDelegate.swift */,
+			);
+			name = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,7 +353,6 @@
 				22982BFE2DCF7DD500876FC1 /* AppDelegate.swift in Sources */,
 				22982C082DCF7DD600876FC1 /* Sports.xcdatamodeld in Sources */,
 				22982C002DCF7DD500876FC1 /* SceneDelegate.swift in Sources */,
-				22E6FDBB2DD0C93C009CF4A0 /* MyTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
