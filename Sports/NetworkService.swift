@@ -2,51 +2,40 @@
 //  NetworkService.swift
 //  Sports
 //
-//  Created by Macos on 11/05/2025.
-//
+
 
 import Foundation
+import Alamofire
 
 
+protocol NetworkProtocol{
+    static func fetchLeagues(for sport: String, completion: @escaping (LeagueResponse?) -> Void)
+}
+class NetworkService: NetworkProtocol {
+    static func fetchLeagues(for sport: String, completion: @escaping (LeagueResponse?) -> Void) {
+        var endpoint = ""
+        switch sport.lowercased() {
+        case "football": endpoint = "/football/?met=Leagues"
+        case "tennis": endpoint = "/tennis/?met=Leagues"
+        case "basketball": endpoint = "/basketball/?met=Leagues"
+        case "cricket": endpoint = "/cricket/?met=Leagues"
+        default:
+            completion(nil)
+            return
+        }
+        
+        let apiKey = "040e448bc7a1f6dabd9b1dd45e7d9d7f92e76f6af150254713bf49f781acb60e"
+        let url = "https://apiv2.allsportsapi.com" + endpoint + "&APIkey=\(apiKey)"
 
-//protocol NetworkProtocol {
-//    
-//    static func fetchDataFromJSON(compliationHundler : @escaping (SportsResponse?) -> Void)
-//    
-//}
-//
-//class NetworkService:NetworkProtocol {
-//    
-//    static var result : SportsResponse?
-//    
-//    
-//    static func fetchDataFromJSON(compliationHundler : @escaping (SportsResponse?) -> Void) {
-//        
-//        let allSportsURL = URL(string: "https://www.thesportsdb.com/api/v1/json/3/all_sports.php")
-//        
-//        guard let newUrl = allSportsURL  else { return }
-//        
-//        
-//        let request = URLRequest (url : newUrl)
-//        
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            
-//            guard let data = data else { return}
-//            
-//            do {
-//                
-//                result = try JSONDecoder().decode(SportsResponse.self, from: data)
-//                
-//                compliationHundler(result)
-//            
-//                
-//            }catch {
-//                
-//                print("Error parsing JSON: \(error)")
-//                compliationHundler(nil)
-//                
-//            }
-//            
-//        }.resume()
-//    }
-//}
+        AF.request(url).responseDecodable(of: LeagueResponse.self) { response in
+            switch response.result {
+            case .success(let data):
+                completion(data)
+            case .failure(let error):
+                print("Network error: \(error)")
+                completion(nil)
+            }
+        }
+    }
+}
+
