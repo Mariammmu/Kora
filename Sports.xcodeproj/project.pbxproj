@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2226D7872DD3650200C889A0 /* LeaguePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226D7862DD3650200C889A0 /* LeaguePresenter.swift */; };
+		2226D7892DD3665700C889A0 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2226D7882DD3665700C889A0 /* NetworkService.swift */; };
+		2226D78F2DD369DF00C889A0 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2226D78E2DD369DF00C889A0 /* Alamofire */; };
 		22982BFE2DCF7DD500876FC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22982BFD2DCF7DD500876FC1 /* AppDelegate.swift */; };
 		22982C002DCF7DD500876FC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22982BFF2DCF7DD500876FC1 /* SceneDelegate.swift */; };
 		22982C022DCF7DD500876FC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22982C012DCF7DD500876FC1 /* ViewController.swift */; };
@@ -26,6 +29,9 @@
 		22E379512DD0A5A00031B5AD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 22E379502DD0A5A00031B5AD /* Kingfisher */; };
 		22E6FDBD2DD0CB80009CF4A0 /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */; };
 		22EB72582DD073C8003548F2 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EB72572DD073C8003548F2 /* MyPageViewController.swift */; };
+		22EE11652DD252CD00EAFE35 /* LeagueTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EE11642DD252CD00EAFE35 /* LeagueTableViewController.swift */; };
+		22EE11672DD252EC00EAFE35 /* LeagueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EE11662DD252EC00EAFE35 /* LeagueTableViewCell.swift */; };
+		22EE11692DD254C000EAFE35 /* LeagueResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EE11682DD254C000EAFE35 /* LeagueResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2226D7862DD3650200C889A0 /* LeaguePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaguePresenter.swift; sourceTree = "<group>"; };
+		2226D7882DD3665700C889A0 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		22982BFA2DCF7DD500876FC1 /* Sports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22982BFD2DCF7DD500876FC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22982BFF2DCF7DD500876FC1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +73,9 @@
 		22E3790E2DD099640031B5AD /* ViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController1.swift; sourceTree = "<group>"; };
 		22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController3.swift; path = ../../../ViewController3.swift; sourceTree = "<group>"; };
 		22EB72572DD073C8003548F2 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		22EE11642DD252CD00EAFE35 /* LeagueTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTableViewController.swift; sourceTree = "<group>"; };
+		22EE11662DD252EC00EAFE35 /* LeagueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueTableViewCell.swift; sourceTree = "<group>"; };
+		22EE11682DD254C000EAFE35 /* LeagueResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeagueResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2226D78F2DD369DF00C889A0 /* Alamofire in Frameworks */,
 				22E379512DD0A5A00031B5AD /* Kingfisher in Frameworks */,
 				22E379022DD087D80031B5AD /* Reachability in Frameworks */,
 				22E379052DD089470031B5AD /* ShimmerSwift in Frameworks */,
@@ -96,6 +108,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2226D7842DD34D6500C889A0 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2226D7882DD3665700C889A0 /* NetworkService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		2226D7852DD364CE00C889A0 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				2226D7862DD3650200C889A0 /* LeaguePresenter.swift */,
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
 		22982BF12DCF7DD500876FC1 = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +147,7 @@
 		22982BFC2DCF7DD500876FC1 /* Sports */ = {
 			isa = PBXGroup;
 			children = (
+				2226D7852DD364CE00C889A0 /* Presenter */,
 				22E6FDBF2DD0E4C3009CF4A0 /* App */,
 				22E379062DD094220031B5AD /* Models */,
 				22E379082DD094AD0031B5AD /* Views */,
@@ -158,6 +187,8 @@
 		22E379062DD094220031B5AD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2226D7842DD34D6500C889A0 /* Services */,
+				22EE11682DD254C000EAFE35 /* LeagueResponse.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -186,7 +217,9 @@
 			isa = PBXGroup;
 			children = (
 				22EB72572DD073C8003548F2 /* MyPageViewController.swift */,
+				22EE11642DD252CD00EAFE35 /* LeagueTableViewController.swift */,
 				22E3790E2DD099640031B5AD /* ViewController1.swift */,
+				22EE11662DD252EC00EAFE35 /* LeagueTableViewCell.swift */,
 				22E6FDBC2DD0CB80009CF4A0 /* ViewController3.swift */,
 			);
 			name = Controllers;
@@ -222,6 +255,7 @@
 				22E379012DD087D80031B5AD /* Reachability */,
 				22E379042DD089470031B5AD /* ShimmerSwift */,
 				22E379502DD0A5A00031B5AD /* Kingfisher */,
+				2226D78E2DD369DF00C889A0 /* Alamofire */,
 			);
 			productName = Sports;
 			productReference = 22982BFA2DCF7DD500876FC1 /* Sports.app */;
@@ -300,6 +334,7 @@
 				22E379002DD087D80031B5AD /* XCRemoteSwiftPackageReference "Reachability" */,
 				22E379032DD089470031B5AD /* XCRemoteSwiftPackageReference "ShimmerSwift" */,
 				22E3794F2DD0A5A00031B5AD /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				2226D78D2DD369DF00C889A0 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 22982BFB2DCF7DD500876FC1 /* Products */;
 			projectDirPath = "";
@@ -349,9 +384,14 @@
 				22E3790F2DD099640031B5AD /* ViewController1.swift in Sources */,
 				22EB72582DD073C8003548F2 /* MyPageViewController.swift in Sources */,
 				22E6FDBD2DD0CB80009CF4A0 /* ViewController3.swift in Sources */,
+				22EE11692DD254C000EAFE35 /* LeagueResponse.swift in Sources */,
 				22982C022DCF7DD500876FC1 /* ViewController.swift in Sources */,
+				22EE11672DD252EC00EAFE35 /* LeagueTableViewCell.swift in Sources */,
+				22EE11652DD252CD00EAFE35 /* LeagueTableViewController.swift in Sources */,
+				2226D7872DD3650200C889A0 /* LeaguePresenter.swift in Sources */,
 				22982BFE2DCF7DD500876FC1 /* AppDelegate.swift in Sources */,
 				22982C082DCF7DD600876FC1 /* Sports.xcdatamodeld in Sources */,
+				2226D7892DD3665700C889A0 /* NetworkService.swift in Sources */,
 				22982C002DCF7DD500876FC1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -690,6 +730,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2226D78D2DD369DF00C889A0 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = exactVersion;
+				version = 5.7.0;
+			};
+		};
 		22E378FD2DD0878A0031B5AD /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -726,6 +774,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2226D78E2DD369DF00C889A0 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2226D78D2DD369DF00C889A0 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		22E378FE2DD0878A0031B5AD /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 22E378FD2DD0878A0031B5AD /* XCRemoteSwiftPackageReference "lottie-ios" */;

@@ -30,8 +30,10 @@ class MyPageViewController: UIPageViewController, UIPageViewControllerDelegate, 
         delegate = self
         dataSource = self
         
+        
         if let initialPage = pages.first{ setViewControllers([initialPage], direction: .forward, animated: true, completion: nil)
         }
+        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -62,6 +64,14 @@ class MyPageViewController: UIPageViewController, UIPageViewControllerDelegate, 
             return pages[afterIndex]
     }
 
+//    override func viewDidAppear(_ animated: Bool) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//               if let tabBarController = self.tabBarController {
+//                   tabBarController.selectedIndex = 0 // Index of the TableViewController tab
+//               }
+//           }
+//       }
+//    }
     /*
     // MARK: - Navigation
 
