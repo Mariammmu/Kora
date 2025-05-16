@@ -77,6 +77,25 @@ class LeagueTableViewController: UITableViewController, LeaguesProtocol {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        let leagueDetailsVC = storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
+       
+        let selectedLeague = leagues[indexPath.row]
+        
+        leagueDetailsVC.leagueKey = selectedLeague.leagueKey
+        leagueDetailsVC.sportName = selectedSport
+        
+        if let key = leagueDetailsVC.leagueKey {
+                print("Selected League Key: \(key)")
+            } else {
+                print("League Key is nil")
+            }
+        
+        navigationController?.pushViewController(leagueDetailsVC, animated: true)
+    }
+
+    
 
     /*
     // Override to support conditional editing of the table view.

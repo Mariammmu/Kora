@@ -17,22 +17,22 @@ struct LeagueResponse: Codable {
 struct League: Codable {
     let leagueKey: Int //football, basketball, cricket, tennis
     let leagueName: String  //football, basketball, cricket, tennis
-    let leagueYear: String //cricket
-    let leagueSurface: String //tennis
-    let countryKey: Int  //football, basketball, tennis
-    let countryName: String //football, basketball, tennis
+    let leagueYear: String? //cricket
+    let leagueSurface: String? //tennis
+    let countryKey: Int?  //football, basketball, tennis
+    let countryName: String? //football, basketball, tennis
     let leagueLogo: String? //football
     let countryLogo: String? //football
 
     enum CodingKeys: String, CodingKey {
         case leagueKey = "league_key"
         case leagueName = "league_name"
+        case leagueYear = "league_year"
+        case leagueSurface = "league_surface"
         case countryKey = "country_key"
         case countryName = "country_name"
         case leagueLogo = "league_logo"
         case countryLogo = "country_logo"
-        case leagueYear = "league_year"
-        case leagueSurface = "league_surface"
 
     }
 }
