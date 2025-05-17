@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeagueTableViewController: UITableViewController, LeaguesProtocol {
+class LeagueTableViewController: UITableViewController {
   
     var presenter: LeaguesPresenter?
         var leagues: [League] = []
@@ -22,16 +22,30 @@ class LeagueTableViewController: UITableViewController, LeaguesProtocol {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         if let sport = selectedSport {
-                    presenter = LeaguesPresenter(view: self)
-                    presenter?.getDataFromModel(sport: sport)
-                } else {
-                    showError(message: "No sport selected.")
-                }
+            
+            presenter = LeaguesPresenter()
+            
+            presenter?.attachView(view: self)
+            
+            presenter?.getDataFromModel(sport: sport)
+            
+        } else {
+        
+            showError(message: "No sport selected.")
+            
+        }
     }
 
     func displayLeagues(leagues: [League]) {
+        
         self.leagues = leagues
-                tableView.reloadData()
+        
+        DispatchQueue.main.async {
+            
+            self.tableView.reloadData()
+            
+        }
+               
     }
     
     func showError(message: String) {

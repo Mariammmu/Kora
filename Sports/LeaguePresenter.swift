@@ -8,30 +8,31 @@
 import Foundation
 
 
-protocol LeaguesProtocol{
-    
-    func displayLeagues( leagues: [League])
-    
-    func showError (message: String)
-}
 
 class LeaguesPresenter{
     //weak
-     var view: LeaguesProtocol?
+     var view: LeagueTableViewController?
     
-    init(view: LeaguesProtocol) { //question
+    func attachView(view: LeagueTableViewController) { //question
+    
         self.view = view
+   
     }
 
     func getDataFromModel(sport: String) {
+        
         NetworkService.fetchLeagues(for: sport) { [weak self] result in
-            DispatchQueue.main.async {
-                if let result = result {
-                    self?.view?.displayLeagues(leagues: result.result)
-                } else {
-                    self?.view?.showError(message: "Failed to fetch products")
-                }
+       
+            if let result = result {
+                
+                self?.view?.displayLeagues(leagues: result.result)
+                
+            } else {
+                
+                self?.view?.showError(message: "Failed to fetch Leagues")
+                
             }
+            
         }
     }
 }

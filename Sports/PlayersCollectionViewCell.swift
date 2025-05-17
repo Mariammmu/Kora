@@ -21,10 +21,22 @@ class PlayersCollectionViewCell: UICollectionViewCell {
     
     func configure(with player: Player) {
             playerName.text = player.playerName ?? "Unknown"
-            playerNumber.text = "#\(player.playerNumber ?? "--")"
-            playerAge.text = "Age: \(player.playerAge ?? "--")"
+            playerNumber.text = "#\(player.playerNumber ?? "Unknown")"
+            playerAge.text = "Age: \(player.playerAge ?? "Unknown")"
+        playerRate.text = "Rate: \(player.playerRating ?? "Unknown")"
             if let imageUrl = player.playerImage, let url = URL(string: imageUrl) {
                 playerImage.kf.setImage(with: url)
             }
         }
+    
+//    if let ratingString = player.playerRating, let rating = Double(ratingString) {
+//            playerRate.rating = rating
+//        } else {
+//            playerRate.rating = 0.0
+//        }
+//
+//
+//        if let imageUrl = player.playerImage, let url = URL(string: imageUrl) {
+//            playerImage.kf.setImage(with: url)
+//        }
 }

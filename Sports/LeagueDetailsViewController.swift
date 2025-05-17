@@ -7,40 +7,42 @@
 
 import UIKit
 
-class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICollectionViewDelegate, UICollectionViewDataSource {
-
+class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     @IBOutlet weak var collectionView: UICollectionView!
+
     
     var leagueKey: Int?
     var sportName: String?
-
+    
     
     var presenter: LeagueDetailsPresenter?
-        var upcomingEvents: [Event] = []
-        var latestEvents: [Event] = []
-        var teams: [Team] = []
+    var upcomingEvents: [Event] = []
+    var latestEvents: [Event] = []
+    var teams: [Team] = []
+    
+    override func viewDidLoad() {
         
-        override func viewDidLoad() {
-            
-            super.viewDidLoad()
-            
-            presenter = LeagueDetailsPresenter(view: self)
-
-            
-            setUpCollectionView()
-              
-            if let key = leagueKey, let sName = sportName {
-                presenter?.fetchUpcomingEvents(sportName: sName, leagueKey: key)
-                presenter?.fetchLatestEvents(sportName: sName, leagueKey: key)
-                presenter?.fetchTeams(sportName: sName, leagueKey: key)
-            } else {
-                showError(message: "Invalid League Key or Sport Name")
-            }
-
+        super.viewDidLoad()
+        
+        presenter = LeagueDetailsPresenter()
+        
+        presenter?.attachView(view: self)
+        
+        setUpCollectionView()
+        
+        if let key = leagueKey, let sName = sportName {
+            presenter?.fetchUpcomingEvents(sportName: sName, leagueKey: key)
+            presenter?.fetchLatestEvents(sportName: sName, leagueKey: key)
+            presenter?.fetchTeams(sportName: sName, leagueKey: key)
+        } else {
+            showError(message: "Invalid League Key or Sport Name")
         }
         
+    }
     
-        
+    
+    
     
     func drawUpcomingEventsSection() -> NSCollectionLayoutSection{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
@@ -56,12 +58,12 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             items.forEach { item in
                 
-                    let distanceFromCenter = abs((item.frame.midX - offset.x) - environment.container.contentSize.width / 2.0)
-                    let minScale: CGFloat = 0.8
-                    let maxScale: CGFloat = 1.0
-                    let scale = max(maxScale - (distanceFromCenter / environment.container.contentSize.width), minScale)
-                    item.transform = CGAffineTransform(scaleX: scale, y: scale)
-                }
+                let distanceFromCenter = abs((item.frame.midX - offset.x) - environment.container.contentSize.width / 2.0)
+                let minScale: CGFloat = 0.8
+                let maxScale: CGFloat = 1.0
+                let scale = max(maxScale - (distanceFromCenter / environment.container.contentSize.width), minScale)
+                item.transform = CGAffineTransform(scaleX: scale, y: scale)
+            }
         }
         
         return section
@@ -92,7 +94,7 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
         
         return section
     }
-
+    
     func drawTeamsSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -105,7 +107,7 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 0)
         
-       
+        
         
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             items.forEach { item in
@@ -119,7 +121,7 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
         
         return section
     }
-
+    
     func setUpCollectionView() {
         let layout = UICollectionViewCompositionalLayout { index, environment in
             if index == 0 {
@@ -135,20 +137,20 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-        
-        func numberOfSections(in collectionView: UICollectionView) -> Int {
-            return 3
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section {
+        case 0: return teams.count
+        case 1: return upcomingEvents.count
+        case 2: return latestEvents.count
+        default: return 0
         }
-        
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            switch section {
-            case 0: return teams.count
-            case 1: return upcomingEvents.count
-            case 2: return latestEvents.count
-            default: return 0
-            }
-        }
-        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 1:
@@ -174,37 +176,75 @@ class LeagueDetailsViewController: UIViewController, LeagueDetailsProtocol, UICo
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
-            if indexPath.section != 1 && indexPath.section != 2{
+        
+        if indexPath.section == 0 {
+            
+            let teamVC = storyboard?.instantiateViewController(withIdentifier: "teamDetailsViewController") as! TeamDetailsViewController
+            
+            let selectedTeam = teams[indexPath.item]
+            
+            teamVC.myTeamKey = selectedTeam.teamKey
+            
+            teamVC.mysportName = sportName
+            
+            
+            if let key = teamVC.myTeamKey {
+                print("Selected Team Key: \(key)")
                 
-                let teamVC = storyboard?.instantiateViewController(withIdentifier: "teamDetailsViewController") as? TeamDetailsViewController
+            } else {
                 
+                print("Team Key is nil")
                 
-                present(teamVC!,animated: true)
             }
+            
+            navigationController?.pushViewController(teamVC, animated: true)
+            
+        }
         
     }
+    
+    func displayUpcomingEvents(events: [Event]) {
         
-        func displayUpcomingEvents(events: [Event]) {
-            self.upcomingEvents = events
-            collectionView.reloadData()
+        self.upcomingEvents = events
+        
+        DispatchQueue.main.async {
+            
+            self.collectionView.reloadData()
+            
         }
         
-        func displayLatestEvents(events: [Event]) {
-            self.latestEvents = events
-            collectionView.reloadData()
+    }
+    
+    func displayLatestEvents(events: [Event]) {
+        
+        self.latestEvents = events
+        
+        DispatchQueue.main.async {
+            
+            self.collectionView.reloadData()
+            
         }
         
-        func displayTeams(teams: [Team]) {
-            self.teams = teams
-            collectionView.reloadData()
+    }
+    
+    func displayTeams(teams: [Team]) {
+        
+        self.teams = teams
+        
+        DispatchQueue.main.async {
+            
+            self.collectionView.reloadData()
+            
         }
         
+    }
+    
     func showError(message: String) {
-        print("Error: \(message)")  // Debug print
+        print("Error: \(message)")
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+        
     }
-
-    }
+    
+}

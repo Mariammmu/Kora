@@ -1,26 +1,25 @@
 //
-//  Team.swift
+//  TeamDetailsResponse.swift
 //  Sports
 //
-//  Created by Macos on 15/05/2025.
+//  Created by Macos on 17/05/2025.
 //
 
 import Foundation
 
-struct TeamResponse:Codable {
-    
+struct TeamDetailsResponse: Codable {
     let success: Int
-    let result: [Team]
+    let result: [TeamDetails]?
 }
 
-struct Team: Codable {
-    let teamKey: Int?
+struct TeamDetails: Codable {
     let teamName: String
     let teamLogo: String?
+    let players: [Player]?
 
     enum CodingKeys: String, CodingKey {
-        case teamKey = "team_key"
         case teamName = "team_name"
         case teamLogo = "team_logo"
+        case players = "players"
     }
 }
