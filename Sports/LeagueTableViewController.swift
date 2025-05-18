@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeagueTableViewController: UITableViewController {
+class LeagueTableViewController: UITableViewController{
   
     var presenter: LeaguesPresenter?
         var leagues: [League] = []
@@ -16,6 +16,14 @@ class LeagueTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let sportName = selectedSport {
+            
+            navigationItem.title = "\(sportName) Leagues"
+            
+        }
+        
+    
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -71,7 +79,12 @@ class LeagueTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! LeagueTableViewCell
 
         // Configure the cell...
-   
+//   
+//        cell.contentView.layer.borderWidth = 1
+//        cell.contentView.layer.borderColor = UIColor(hex: "#C12A44").cgColor
+//        cell.contentView.layer.cornerRadius = 10
+//        cell.contentView.layer.masksToBounds = true
+        
         let league = leagues[indexPath.row]
         cell.leagueName.text = league.leagueName
 
@@ -110,6 +123,21 @@ class LeagueTableViewController: UITableViewController {
     }
 
     
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let spacer = UIView()
+        spacer.backgroundColor = .clear
+        return spacer
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 16
+    }
+
 
     /*
     // Override to support conditional editing of the table view.

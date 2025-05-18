@@ -22,21 +22,31 @@ class AllSportsCollectionViewCell: UICollectionViewCell {
         
         
         sportImage.layer.cornerRadius = 15
-                sportImage.layer.masksToBounds = true
-                sportImage.contentMode = .scaleAspectFill
+        sportImage.layer.masksToBounds = true
+        sportImage.contentMode = .scaleAspectFill
+        sportName.layer.cornerRadius = 8
+        sportName.layer.masksToBounds = true
                 
-                
-                sportName.textAlignment = .center
-                sportName.font = UIFont.boldSystemFont(ofSize: 14)
-                sportName.textColor = .white
-                sportName.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-                sportName.layer.cornerRadius = 8
-                sportName.layer.masksToBounds = true
-                
-                
-                layer.cornerRadius = 15
-                layer.masksToBounds = true
-                layer.borderWidth = 2
-                layer.borderColor = UIColor.systemBlue.cgColor
+        layer.cornerRadius = 15
+        layer.masksToBounds = true
+        layer.borderWidth = 2
+        layer.borderColor = UIColor(hex: "#C12A44").cgColor
+    }
+}
+
+
+extension UIColor {
+    convenience init(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+
+        var rgb: UInt64 = 0
+        Scanner(string: hexSanitized).scanHexInt64(&rgb)
+
+        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
 }

@@ -15,7 +15,7 @@ class ViewController1: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        animationView = LottieAnimationView(name: "balls")
+        animationView = LottieAnimationView(name: "splash_animation")
         animationView?.frame = self.view.bounds
         animationView?.contentMode = .scaleAspectFit
         animationView?.loopMode = .loop
@@ -36,7 +36,15 @@ class ViewController1: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        animationView?.frame = self.view.bounds
+        let width = self.view.bounds.width
+        let height = self.view.bounds.height
+        let offsetX: CGFloat = -20
+        let offsetY: CGFloat = -70
+
+        animationView?.frame = CGRect(x: offsetX, y: offsetY, width: width, height: height)
+    
+
+       // animationView?.frame = self.view.bounds
     }
 }
     

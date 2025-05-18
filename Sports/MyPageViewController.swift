@@ -23,18 +23,30 @@ class MyPageViewController: UIPageViewController, UIPageViewControllerDelegate, 
         let secondPage = self.storyboard?.instantiateViewController(withIdentifier: "v2")
         let thirdPage = self.storyboard?.instantiateViewController(withIdentifier: "v3")
         
-        pages.append(initialPage!)
-        pages.append(secondPage!)
-        pages.append(thirdPage!)
-        
-        delegate = self
-        dataSource = self
-        
-        
-        if let initialPage = pages.first{ setViewControllers([initialPage], direction: .forward, animated: true, completion: nil)
+        if let initialPage = initialPage, let secondPage = secondPage, let thirdPage = thirdPage {
+            pages.append(initialPage)
+            pages.append(secondPage)
+            pages.append(thirdPage)
         }
+
+        
+        self.delegate = self
+        self.dataSource = self
+
+        
+        
+//        if let initialPage = pages.first{ setViewControllers([initialPage], direction: .forward, animated: true, completion: nil)
+//        }
         
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let initialPage = pages.first {
+            setViewControllers([initialPage], direction: .forward, animated: true, completion: nil)
+        }
+    }
+
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
     

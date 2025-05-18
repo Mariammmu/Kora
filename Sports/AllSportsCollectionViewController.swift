@@ -20,17 +20,25 @@ class AllSportsCollectionViewController: UICollectionViewController {
         
         self.navigationItem.title = "Sports"
           
-          
-          let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue,
-                                NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 24)]
-          navigationController?.navigationBar.titleTextAttributes = textAttributes
+        let textAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor(hex: "#C12A44"),
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 24)
+        ]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+
+        let backgroundImage = UIImageView(image: UIImage(named: "bg"))
+        backgroundImage.contentMode = .scaleAspectFill
+           backgroundImage.frame = self.collectionView.bounds
+           
+           
+           self.collectionView.backgroundView = backgroundImage
           
            
         allSports = [
-                Sport(strSport: "Football", strSportThumb: "football 1.png"),
-                Sport(strSport: "Tennis", strSportThumb: "tennis.png"),
-                Sport(strSport: "Basketball", strSportThumb: "basketball.png"),
-                Sport(strSport: "Cricket", strSportThumb: "cricket.png")
+                Sport(strSport: "Football", strSportThumb: "football_home.png"),
+                Sport(strSport: "Tennis", strSportThumb: "tennis_home.png"),
+                Sport(strSport: "Cricket", strSportThumb: "cricket_home.png"),
+                Sport(strSport: "Basketball", strSportThumb: "basketball_home.png")
             ]
             
         
@@ -39,13 +47,6 @@ class AllSportsCollectionViewController: UICollectionViewController {
             
             collectionView.reloadData()
         
-    }
-    
-    func setActivityIndicator() {
-        networkIndicator.center = view.center
-        networkIndicator.color = .red
-        networkIndicator.startAnimating()
-        view.addSubview(networkIndicator)
     }
     
     
@@ -75,9 +76,9 @@ class AllSportsCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AllSportsCollectionViewCell
            
-           let sport = allSports[indexPath.row]
+        let sport = allSports[indexPath.row]
         cell.sportName.text = sport.strSport
-           cell.sportImage.image = UIImage(named: sport.strSportThumb)
+        cell.sportImage.image = UIImage(named: sport.strSportThumb)
            
         return cell
     }
