@@ -7,7 +7,8 @@
 
 import UIKit
 
-class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, LeagueDetailsProtocol {
+  
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -15,11 +16,17 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     var leagueKey: Int?
     var sportName: String?
     
+    var isFavorite: Bool = false
+    var leagueName: String?
+    var leagueLogo: String?
+    
     
     var presenter: LeagueDetailsPresenter?
     var upcomingEvents: [Event] = []
     var latestEvents: [Event] = []
     var teams: [Team] = []
+    
+    var favButton: UIBarButtonItem?
     
     override func viewDidLoad() {
         
@@ -35,14 +42,64 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             presenter?.fetchUpcomingEvents(sportName: sName, leagueKey: key)
             presenter?.fetchLatestEvents(sportName: sName, leagueKey: key)
             presenter?.fetchTeams(sportName: sName, leagueKey: key)
+            
+            isFavorite = CoreDataService.shared.isLeagueFavorite(id: key)
+                   setupFavoriteButton(isFavorite: isFavorite)
+
         } else {
             showError(message: "Invalid League Key or Sport Name")
         }
-        
+    
+
+        setupFavoriteButton(isFavorite: false)
+    }
+    
+    func setupFavoriteButton(isFavorite: Bool) {
+        let buttonImage = isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        favButton = UIBarButtonItem(
+            image: buttonImage,
+            style: .plain,
+            target: self,
+            action: #selector(pressRightButton)
+        )
+        favButton?.tintColor = UIColor(named: "borderColor")
+        navigationItem.rightBarButtonItem = favButton
     }
     
     
+//    func setupFavoriteButton(isFavorite:Bool){
+//        let favButton = UIBarButtonItem(
+//            image: isFavorite == true ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),
+//            style: .plain,
+//            target: self,
+//            action: #selector (pressRightButton))
+//        favButton.tintColor = UIColor(named: "borderColor")
+//
+//        navigationItem.rightBarButtonItem = favButton
+//
+//    }
     
+//    @objc func pressRightButton(){
+//        presenter?.toggleFavorite()
+//    }
+    @objc func pressRightButton() {
+        guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
+            showError(message: "League data is missing")
+            return
+        }
+     
+        if isFavorite {
+            if let league = CoreDataService.shared.getLeague(byId: id) {
+                CoreDataService.shared.deleteLeague(league: league)
+            }
+            isFavorite = false
+        } else {
+            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
+            isFavorite = true
+        }
+     
+        setupFavoriteButton(isFavorite: isFavorite)
+    }
     
     func drawUpcomingEventsSection() -> NSCollectionLayoutSection{
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
