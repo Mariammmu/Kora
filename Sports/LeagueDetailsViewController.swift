@@ -76,7 +76,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 4)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 4)
         
         let section = NSCollectionLayoutSection(group: group)
         
@@ -99,7 +99,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.75), heightDimension: .absolute(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
         
@@ -144,26 +144,26 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 0: return teams.count
-        case 1: return upcomingEvents.count
-        case 2: return latestEvents.count
+        case 0: return upcomingEvents.count
+        case 1: return latestEvents.count
+        case 2: return teams.count
         default: return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
-        case 1:
+        case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
             cell.configure(event: upcomingEvents[indexPath.item])
             return cell
             
-        case 2:
+        case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventCell", for: indexPath) as! LatestEventCollectionViewCell
             cell.configure(event: latestEvents[indexPath.item])
             return cell
             
-        case 0:
+        case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! TeamsCollectionViewCell
             let team = teams[indexPath.item]
             cell.config(teamTitle: team.teamName ?? "N/A", teamImg: team.teamLogo ?? "")
@@ -177,7 +177,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {
+        if indexPath.section == 2 {
             
             let teamVC = storyboard?.instantiateViewController(withIdentifier: "teamDetailsViewController") as! TeamDetailsViewController
             
@@ -246,5 +246,9 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         present(alert, animated: true)
         
     }
+    
+    
+    
+    
     
 }

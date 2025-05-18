@@ -31,9 +31,11 @@ class LatestEventCollectionViewCell: UICollectionViewCell {
             backgroundColor = .white
             
             
-            layer.borderWidth = 1
-            layer.borderColor = UIColor.gray.cgColor
-            layer.cornerRadius = 8
+        
+layer.cornerRadius = 15
+layer.masksToBounds = true
+layer.borderWidth = 2
+layer.borderColor = UIColor(hex: "#C12A44").cgColor
     
     }
     
