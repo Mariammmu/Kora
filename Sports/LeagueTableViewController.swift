@@ -78,13 +78,7 @@ class LeagueTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! LeagueTableViewCell
 
-        // Configure the cell...
-//   
-//        cell.contentView.layer.borderWidth = 1
-//        cell.contentView.layer.borderColor = UIColor(hex: "#C12A44").cgColor
-//        cell.contentView.layer.cornerRadius = 10
-//        cell.contentView.layer.masksToBounds = true
-        
+        // Configure the cell...        
         let league = leagues[indexPath.row]
         cell.leagueName.text = league.leagueName
 
