@@ -27,7 +27,8 @@ class TeamDetailsPresenter {
                     
                     self?.view?.displayTeamDetails(teamDetails: teamDetails)
                     
-                } else {
+                } 
+            else {
                     
                     self?.view?.showError(message: "No Data Found.")
            

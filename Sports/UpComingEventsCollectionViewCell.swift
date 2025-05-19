@@ -25,22 +25,26 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
     
     
     override func awakeFromNib() {
-           super.awakeFromNib()
-           setupViews()
-       }
+        super.awakeFromNib()
+        setupViews()
+//        
+//        let backgroundImageView = UIImageView(frame: bounds)
+//          backgroundImageView.contentMode = .scaleAspectFill
+//          backgroundImageView.clipsToBounds = true
+//          backgroundImageView.layer.cornerRadius = 15
+//          backgroundImageView.image = UIImage(named: "bg")
+//          backgroundView = backgroundImageView
+        
+    }
+    
+    
     func setupViews() {
             
-            
             backgroundColor = .white
-            
-            
-        
-layer.cornerRadius = 15
-layer.masksToBounds = true
-layer.borderWidth = 2
-layer.borderColor = UIColor(hex: "#C12A44").cgColor
-        
-    
+            layer.cornerRadius = 15
+            layer.masksToBounds = true
+            layer.borderWidth = 2
+            layer.borderColor = UIColor(hex: "#C12A44").cgColor
     }
     
     public func configure(event: Event) {

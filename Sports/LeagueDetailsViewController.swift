@@ -7,7 +7,8 @@
 
 import UIKit
 
-class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, LeagueDetailsProtocol {
+  
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -15,15 +16,32 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     var leagueKey: Int?
     var sportName: String?
     
+    var isFavorite: Bool = false
+    var leagueName: String?
+    var leagueLogo: String?
+    
     
     var presenter: LeagueDetailsPresenter?
     var upcomingEvents: [Event] = []
     var latestEvents: [Event] = []
     var teams: [Team] = []
     
+    var networkIndicator = UIActivityIndicatorView(style: .large)
+    
+    var favButton: UIBarButtonItem?
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        
+        if let leagueName = leagueName {
+            
+            navigationItem.title = "\(leagueName.capitalized)"
+            
+        }
+        
+        setActivityIndicator()
         
         presenter = LeagueDetailsPresenter()
         
@@ -35,25 +53,88 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             presenter?.fetchUpcomingEvents(sportName: sName, leagueKey: key)
             presenter?.fetchLatestEvents(sportName: sName, leagueKey: key)
             presenter?.fetchTeams(sportName: sName, leagueKey: key)
-        } else {
-            showError(message: "Invalid League Key or Sport Name")
+            
+            isFavorite = CoreDataService.shared.isLeagueFavorite(id: key)
+                   setupFavoriteButton(isFavorite: isFavorite)
+
         }
-        
+//        else {
+//            showError(message: "Invalid League Key or Sport Name")
+//        }
+    
+
+        setupFavoriteButton(isFavorite: false)
+    }
+    
+    func setActivityIndicator() {
+        networkIndicator.center = view.center
+        networkIndicator.color = .red
+        networkIndicator.startAnimating()
+        view.addSubview(networkIndicator)
+    }
+    
+    func setupFavoriteButton(isFavorite: Bool) {
+        let buttonImage = isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        favButton = UIBarButtonItem(
+            image: buttonImage,
+            style: .plain,
+            target: self,
+            action: #selector(pressRightButton)
+        )
+        favButton?.tintColor = UIColor(named: "borderColor")
+        navigationItem.rightBarButtonItem = favButton
     }
     
     
+//    func setupFavoriteButton(isFavorite:Bool){
+//        let favButton = UIBarButtonItem(
+//            image: isFavorite == true ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"),
+//            style: .plain,
+//            target: self,
+//            action: #selector (pressRightButton))
+//        favButton.tintColor = UIColor(named: "borderColor")
+//
+//        navigationItem.rightBarButtonItem = favButton
+//
+//    }
     
+//    @objc func pressRightButton(){
+//        presenter?.toggleFavorite()
+//    }
+    @objc func pressRightButton() {
+        guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
+            showError(message: "League data is missing")
+            return
+        }
+     
+        if isFavorite {
+            if let league = CoreDataService.shared.getLeague(byId: id) {
+                CoreDataService.shared.deleteLeague(league: league)
+            }
+            isFavorite = false
+        } else {
+            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
+            isFavorite = true
+        }
+     
+        setupFavoriteButton(isFavorite: isFavorite)
+    }
+
     
     func drawUpcomingEventsSection() -> NSCollectionLayoutSection{
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 0)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
+          let item = NSCollectionLayoutItem(layoutSize: itemSize)
+          
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            group.interItemSpacing = .fixed(16)
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .continuous
+            section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 16)
+            
+        
         
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             items.forEach { item in
@@ -71,16 +152,17 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     
     
     func drawLatestResultsSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 4)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        
-        section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 16)
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+          let item = NSCollectionLayoutItem(layoutSize: itemSize)
+          
+          let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+          let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+          
+          group.interItemSpacing = .fixed(16)
+          let section = NSCollectionLayoutSection(group: group)
+          section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 18, trailing: 16)
+          
         
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             items.forEach { item in
@@ -96,19 +178,18 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     func drawTeamsSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 32)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 0)
-        
-        
-        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200))
+           let item = NSCollectionLayoutItem(layoutSize: itemSize)
+           
+           let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200))
+           let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+           
+           group.interItemSpacing = .fixed(16)
+           let section = NSCollectionLayoutSection(group: group)
+           section.orthogonalScrollingBehavior = .continuous
+           section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 16)
+           
         section.visibleItemsInvalidationHandler = { (items, offset, environment) in
             items.forEach { item in
                 let distanceFromCenter = abs((item.frame.midX - offset.x) - environment.container.contentSize.width / 2.0)
@@ -142,6 +223,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         return 3
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0: return upcomingEvents.count
@@ -156,17 +239,112 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         case 0:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
             cell.configure(event: upcomingEvents[indexPath.item])
+            
+            let backgroundImageView = UIImageView(frame: cell.bounds)
+                  
+            backgroundImageView.contentMode = .scaleAspectFill
+            
+            backgroundImageView.clipsToBounds = true
+            
+            backgroundImageView.layer.cornerRadius = 15
+            
+            
+            if(sportName?.lowercased() == "football"){
+                
+                backgroundImageView.image = UIImage(named: "soccer_bg")
+                
+            }else if (sportName?.lowercased() == "tennis"){
+                
+                backgroundImageView.image = UIImage(named: "tennis_bg")
+                
+            }else if (sportName?.lowercased() == "basketball"){
+            
+                backgroundImageView.image = UIImage(named: "basketball_bg")
+           
+            }else if (sportName?.lowercased() == "cricket"){
+                
+                backgroundImageView.image = UIImage(named: "cricket_bg")
+                
+            }
+                  
+                
+            cell.backgroundView = backgroundImageView
+            
             return cell
             
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventCell", for: indexPath) as! LatestEventCollectionViewCell
+            
             cell.configure(event: latestEvents[indexPath.item])
+            
+            let backgroundImageView = UIImageView(frame: cell.bounds)
+                  
+            backgroundImageView.contentMode = .scaleAspectFill
+            
+            backgroundImageView.clipsToBounds = true
+            
+            backgroundImageView.layer.cornerRadius = 15
+            
+            
+            if(sportName?.lowercased() == "football"){
+                
+                backgroundImageView.image = UIImage(named: "soccer_bg")
+                
+            }else if (sportName?.lowercased() == "tennis"){
+                
+                backgroundImageView.image = UIImage(named: "tennis_bg")
+                
+            }else if (sportName?.lowercased() == "basketball"){
+            
+                backgroundImageView.image = UIImage(named: "basketball_bg")
+           
+            }else if (sportName?.lowercased() == "cricket"){
+                
+                backgroundImageView.image = UIImage(named: "cricket_bg")
+                
+            }
+                  
+                
+            cell.backgroundView = backgroundImageView
+            
             return cell
             
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! TeamsCollectionViewCell
             let team = teams[indexPath.item]
+            
             cell.config(teamTitle: team.teamName ?? "N/A", teamImg: team.teamLogo ?? "")
+            
+            let backgroundImageView = UIImageView(frame: cell.bounds)
+                  
+            backgroundImageView.contentMode = .scaleAspectFill
+            
+            backgroundImageView.clipsToBounds = true
+            
+            backgroundImageView.layer.cornerRadius = 15
+            
+            
+            if(sportName?.lowercased() == "football"){
+                
+                backgroundImageView.image = UIImage(named: "soccer_bg")
+                
+            }else if (sportName?.lowercased() == "tennis"){
+                
+                backgroundImageView.image = UIImage(named: "tennis_bg")
+                
+            }else if (sportName?.lowercased() == "basketball"){
+            
+                backgroundImageView.image = UIImage(named: "basketball_bg")
+           
+            }else if (sportName?.lowercased() == "cricket"){
+                
+                backgroundImageView.image = UIImage(named: "cricket_bg")
+                
+            }
+                  
+                
+            cell.backgroundView = backgroundImageView
+            
             return cell
             
         default:
@@ -210,6 +388,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         DispatchQueue.main.async {
             
             self.collectionView.reloadData()
+            self.networkIndicator.stopAnimating()
             
         }
         
@@ -222,6 +401,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         DispatchQueue.main.async {
             
             self.collectionView.reloadData()
+            self.networkIndicator.stopAnimating()
             
         }
         
@@ -234,6 +414,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         DispatchQueue.main.async {
             
             self.collectionView.reloadData()
+            self.networkIndicator.stopAnimating()
             
         }
         
@@ -246,9 +427,4 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         present(alert, animated: true)
         
     }
-    
-    
-    
-    
-    
 }

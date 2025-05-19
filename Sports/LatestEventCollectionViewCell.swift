@@ -24,20 +24,18 @@ class LatestEventCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
            super.awakeFromNib()
            setupViews()
-       }
-    func setupViews() {
-            
-            
-            backgroundColor = .white
-            
-            
-        
-layer.cornerRadius = 15
-layer.masksToBounds = true
-layer.borderWidth = 2
-layer.borderColor = UIColor(hex: "#C12A44").cgColor
     
     }
+    
+    func setupViews() {
+            
+            backgroundColor = .white
+            layer.cornerRadius = 15
+            layer.masksToBounds = true
+            layer.borderWidth = 2
+            layer.borderColor = UIColor(hex: "#C12A44").cgColor
+    }
+    
     
     public func configure(event: Event) {
         team1Name.text = event.eventHomeTeam ?? "N/A"

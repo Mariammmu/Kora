@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class LeagueTableViewController: UITableViewController{
   
     var presenter: LeaguesPresenter?
@@ -40,6 +40,19 @@ class LeagueTableViewController: UITableViewController{
         } else {
         
             showError(message: "No sport selected.")
+            
+        }
+        
+        if let borderColor = UIColor(named: "BorderColor") {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = borderColor
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white] // or your desired text color
+            
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = appearance
+            navigationController?.navigationBar.compactAppearance = appearance
+            navigationController?.navigationBar.tintColor = .white
             
         }
     }
@@ -78,44 +91,44 @@ class LeagueTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! LeagueTableViewCell
 
-        // Configure the cell...        
         let league = leagues[indexPath.row]
-        cell.leagueName.text = league.leagueName
+           cell.leagueName.text = league.leagueName
+           cell.leagueImage.image = UIImage(named: "league")
+           cell.startShimmering()
 
-        if let logoURL = league.leagueLogo, let url = URL(string: logoURL) {
-            URLSession.shared.dataTask(with: url) { data, _, _ in
-                if let data = data {
-                    DispatchQueue.main.async {
-                        cell.leagueImage.image = UIImage(data: data)
-                    }
-                }
-            }.resume()
-        } else {
-            cell.leagueImage.image = UIImage(systemName: "sportscourt") // Placeholder
-        }
+           if let logoURL = league.leagueLogo, let url = URL(string: logoURL) {
+               AF.request(url).responseData { response in
+                   DispatchQueue.main.async {
+                       cell.stopShimmering()
+                       switch response.result {
+                       case .success(let data):
+                           cell.leagueImage.image = UIImage(data: data)
+                       case .failure(_):
+                           cell.leagueImage.image = UIImage(named: "league")
+                       }
+                   }
+               }
+           } else {
+               cell.stopShimmering()
+               cell.leagueImage.image = UIImage(named: "league")
+           }
 
-
-        return cell
-    }
+           return cell
+       }
     
+    
+    
+    
+ 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
         let leagueDetailsVC = storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as! LeagueDetailsViewController
-       
         let selectedLeague = leagues[indexPath.row]
-        
         leagueDetailsVC.leagueKey = selectedLeague.leagueKey
         leagueDetailsVC.sportName = selectedSport
-        
-        if let key = leagueDetailsVC.leagueKey {
-                print("Selected League Key: \(key)")
-            } else {
-                print("League Key is nil")
-            }
-        
+        leagueDetailsVC.leagueName = selectedLeague.leagueName
+        leagueDetailsVC.leagueLogo = selectedLeague.leagueLogo
         navigationController?.pushViewController(leagueDetailsVC, animated: true)
     }
-
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,6 +144,16 @@ class LeagueTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 16
     }
+    
+//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        let spacerView = UIView()
+//        spacerView.backgroundColor = .clear
+//        return spacerView
+//    }
+//
+//    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 12
+//    }
 
 
     /*

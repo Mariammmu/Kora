@@ -7,11 +7,19 @@
 
 import Foundation
 
+protocol LeagueDetailsProtocol: AnyObject {
+    func setupFavoriteButton(isFavorite: Bool)
+}
 
 class LeagueDetailsPresenter {
     
     var view: LeagueDetailsViewController?
     
+      // var leagueId: Int?
+
+//    var leagueName: String?
+//    var leagueLogo: String?
+//
     func attachView(view: LeagueDetailsViewController) {
         
         self.view = view
@@ -26,10 +34,6 @@ class LeagueDetailsPresenter {
                 
                 self?.view?.displayUpcomingEvents(events: events)
                 
-            } else {
-                
-                self?.view?.showError(message: "No Data Found.")
-                
             }
         }
     }
@@ -42,11 +46,8 @@ class LeagueDetailsPresenter {
                 
                 self?.view?.displayLatestEvents(events: events)
                 
-            } else {
-                
-                self?.view?.showError(message: "No Data Found.")
-                
-            }
+            } 
+
         }
     }
     
@@ -58,11 +59,36 @@ class LeagueDetailsPresenter {
                 
                 self?.view?.displayTeams(teams: teams)
                 
-            } else {
-                
-                self?.view?.showError(message: "No Data Found.")
-                
-            }
+            } 
+
         }
     }
+//    func setLeagueDetails(id: Int, name: String, logo: String) {
+//            self.leagueId = id
+//            self.leagueName = name
+//            self.leagueLogo = logo
+//
+//            // Update the button on load
+//            view?.setupFavoriteButton(isFavorite: isLeagueFavorite())
+//        }
+//    
+//    func isLeagueFavorite() -> Bool {
+//        guard let id = leagueId else { return false }
+//        return CoreDataService.shared.isLeagueFavorite(id: id)
+//    }
+//
+//    func toggleFavorite() {
+//        guard let id = leagueId,
+//              let name = leagueName,
+//              let logo = leagueLogo else { return }
+//
+//        if let league = CoreDataService.shared.getLeague(byId: id) {
+//            CoreDataService.shared.deleteLeague(league: league)
+//        } else {
+//            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
+//        }
+//
+//        view?.setupFavoriteButton(isFavorite: isLeagueFavorite())
+//    }
+    
 }
