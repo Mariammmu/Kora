@@ -83,7 +83,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
 //        presenter?.toggleFavorite()
 //    }
     @objc func pressRightButton() {
-        guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
+       // guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
+        guard let id = leagueKey, let name = leagueName else {
             showError(message: "League data is missing")
             return
         }
@@ -94,7 +95,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             }
             isFavorite = false
         } else {
-            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
+            CoreDataService.shared.addLeague(id: id, name: name, logo: leagueLogo)
             isFavorite = true
         }
      
