@@ -147,19 +147,27 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             }
         }
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+          let header = NSCollectionLayoutBoundarySupplementaryItem(
+              layoutSize: headerSize,
+              elementKind: UICollectionView.elementKindSectionHeader,
+              alignment: .top
+          )
+          section.boundarySupplementaryItems = [header]
+        
         return section
     }
     
     
     func drawLatestResultsSection() -> NSCollectionLayoutSection {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.9))
           let item = NSCollectionLayoutItem(layoutSize: itemSize)
           
           let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
           let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
           
-          group.interItemSpacing = .fixed(16)
+//          group.interItemSpacing = .fixed(16)
           let section = NSCollectionLayoutSection(group: group)
           section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 18, trailing: 16)
           
@@ -173,6 +181,14 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
                 item.transform = CGAffineTransform(scaleX: scale, y: scale)
             }
         }
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+          let header = NSCollectionLayoutBoundarySupplementaryItem(
+              layoutSize: headerSize,
+              elementKind: UICollectionView.elementKindSectionHeader,
+              alignment: .top
+          )
+          section.boundarySupplementaryItems = [header]
         
         return section
     }
@@ -200,8 +216,34 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             }
         }
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(50))
+          let header = NSCollectionLayoutBoundarySupplementaryItem(
+              layoutSize: headerSize,
+              elementKind: UICollectionView.elementKindSectionHeader,
+              alignment: .top
+          )
+          section.boundarySupplementaryItems = [header]
+        
         return section
     }
+    
+    
+     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "teamDetailsLabel", for: indexPath) as! TeamDetailsCollectionReusableView
+            switch indexPath.section{
+            case 0:
+                header.labelName.text = "Up Coming Matches"
+            case 1:
+                header.labelName.text = "Past Matches"
+            default:
+                header.labelName.text = "Teams"
+            }
+            
+            return header
+        }
+        
+        
+     
     
     func setUpCollectionView() {
         let layout = UICollectionViewCompositionalLayout { index, environment in
@@ -364,6 +406,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             teamVC.myTeamKey = selectedTeam.teamKey
             
             teamVC.mysportName = sportName
+            
+            teamVC.teamName = selectedTeam.teamName
             
             
             if let key = teamVC.myTeamKey {
