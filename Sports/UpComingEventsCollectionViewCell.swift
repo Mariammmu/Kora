@@ -22,19 +22,11 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var date: UILabel!
-    
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
         setupViews()
-//        
-//        let backgroundImageView = UIImageView(frame: bounds)
-//          backgroundImageView.contentMode = .scaleAspectFill
-//          backgroundImageView.clipsToBounds = true
-//          backgroundImageView.layer.cornerRadius = 15
-//          backgroundImageView.image = UIImage(named: "bg")
-//          backgroundView = backgroundImageView
-        
     }
     
     
@@ -54,15 +46,15 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
         time.text = event.eventTime ?? "N/A"
         
         if let homeLogo = event.homeTeamLogo, let url = URL(string: homeLogo) {
-            team1Image.kf.setImage(with: url)
+            team1Image.kf.setImage(with: url, placeholder: UIImage(named: "team_logo"))
         } else {
-            team1Image.image = UIImage(systemName: "questionmark")
+            team1Image.image = UIImage(named: "team_logo")
         }
         
         if let awayLogo = event.awayTeamLogo, let url = URL(string: awayLogo) {
-            team2Image.kf.setImage(with: url)
+            team2Image.kf.setImage(with: url , placeholder: UIImage(named: "team_logo"))
         } else {
-            team2Image.image = UIImage(systemName: "questionmark")
+            team2Image.image = UIImage(named: "team_logo")
         }
     }
 

@@ -43,10 +43,10 @@ class PlayersCollectionViewCell: UICollectionViewCell {
 
      
             if let imageUrl = player.playerImage, let url = URL(string: imageUrl) {
-                playerImage.kf.setImage(with: url , placeholder: UIImage(named: "unknown_player"))
+                playerImage.kf.setImage(with: url , placeholder: UIImage(named: "unknown-player"))
             }
         else {
-                self.playerImage.image = UIImage(named: "unknown_player")
+                self.playerImage.image = UIImage(named: "unknown-player")
             }
         
         }

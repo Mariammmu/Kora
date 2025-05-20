@@ -32,10 +32,16 @@ class TeamsCollectionViewCell: UICollectionViewCell {
             layer.borderColor = UIColor(hex: "#C12A44").cgColor
     }
     
-    public func config(teamTitle:String, teamImg:String){
+    public func config(team:Team){
         
-        teamName.text = teamTitle
-        teamImage.kf.setImage(with: URL(string: teamImg))
+        teamName.text = team.teamName
+        
+        if let teamLogo = team.teamLogo, let url = URL(string: teamLogo) {
+            teamImage.kf.setImage(with: url, placeholder: UIImage(named: "team_logo"))
+        } else {
+            teamImage.image = UIImage(named: "team_logo")
+        }
+      
         
     }
 }

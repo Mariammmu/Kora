@@ -18,7 +18,7 @@ class AllSportsCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationItem.title = "Sports"
+        navigationItem.title = "Sports"
           
         let textAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor(hex: "#C12A44"),

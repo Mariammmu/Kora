@@ -23,6 +23,7 @@ class LeagueTableViewController: UITableViewController{
             
         }
         
+        navigationController?.navigationBar.tintColor = UIColor(hex: "#C12A44")
     
 
         // Uncomment the following line to preserve selection between presentations

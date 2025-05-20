@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, LeagueDetailsProtocol {
+class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
   
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -40,6 +40,8 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             navigationItem.title = "\(leagueName.capitalized)"
             
         }
+        
+        navigationController?.navigationBar.tintColor = UIColor(hex: "#C12A44")
         
         setActivityIndicator()
         
@@ -129,7 +131,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200))
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
-            group.interItemSpacing = .fixed(16)
+//            group.interItemSpacing = .fixed(16)
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
             section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 16)
@@ -167,7 +169,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
           let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(200))
           let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
           
-//          group.interItemSpacing = .fixed(16)
+          group.interItemSpacing = .fixed(16)
           let section = NSCollectionLayoutSection(group: group)
           section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 18, trailing: 16)
           
@@ -201,7 +203,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.8), heightDimension: .absolute(200))
            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
            
-           group.interItemSpacing = .fixed(16)
+//           group.interItemSpacing = .fixed(16)
            let section = NSCollectionLayoutSection(group: group)
            section.orthogonalScrollingBehavior = .continuous
            section.contentInsets = NSDirectionalEdgeInsets(top: 18, leading: 16, bottom: 16, trailing: 16)
@@ -226,6 +228,7 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         
         return section
     }
+    
     
     
      func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -266,19 +269,30 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     }
     
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 0: return upcomingEvents.count
-        case 1: return latestEvents.count
-        case 2: return teams.count
+        case 0: return max(upcomingEvents.count, 1)
+        case 1: return max(latestEvents.count, 1)
+        case 2: return max(teams.count, 1)
         default: return 0
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
+            
+            if upcomingEvents.isEmpty {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noDataCell", for: indexPath) as! NoDataCollectionViewCell
+              
+                cell.noDataimage.image = UIImage(named: "no_data")
+
+
+                cell.noDatalabel.text = "No Upcoming Events"
+                return cell
+            }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "upComingEventsCell", for: indexPath) as! UpComingEventsCollectionViewCell
             cell.configure(event: upcomingEvents[indexPath.item])
             
@@ -315,6 +329,16 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             return cell
             
         case 1:
+            
+            if latestEvents.isEmpty {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noDataCell", for: indexPath) as! NoDataCollectionViewCell
+                
+                cell.noDataimage.image = UIImage(named: "no_data")
+
+                cell.noDatalabel.text = "No Past Events"
+                return cell
+            }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "latestEventCell", for: indexPath) as! LatestEventCollectionViewCell
             
             cell.configure(event: latestEvents[indexPath.item])
@@ -352,10 +376,19 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             return cell
             
         case 2:
+            
+            if teams.isEmpty {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noDataCell", for: indexPath) as! NoDataCollectionViewCell
+                
+                cell.noDataimage.image = UIImage(named: "no_data")
+
+                cell.noDatalabel.text = "No Teams Found"
+                return cell
+            }
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamsCell", for: indexPath) as! TeamsCollectionViewCell
             let team = teams[indexPath.item]
             
-            cell.config(teamTitle: team.teamName ?? "N/A", teamImg: team.teamLogo ?? "")
+            cell.config(team: teams[indexPath.item])
             
             let backgroundImageView = UIImageView(frame: cell.bounds)
                   

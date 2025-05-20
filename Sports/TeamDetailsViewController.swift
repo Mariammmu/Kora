@@ -34,6 +34,8 @@ class TeamDetailsViewController: UIViewController, UICollectionViewDelegate, UIC
             
         }
         
+        navigationController?.navigationBar.tintColor = UIColor(hex: "#C12A44")
+        
         setUpCollectionView()
         
         presenter = TeamDetailsPresenter()
@@ -74,8 +76,11 @@ class TeamDetailsViewController: UIViewController, UICollectionViewDelegate, UIC
             
             if let logoUrlString = teamDetails.teamLogo, let logoUrl = URL(string: logoUrlString) {
                 
-                self.teamImageView.kf.setImage(with: logoUrl)
+                self.teamImageView.kf.setImage(with: logoUrl, placeholder: UIImage(named: "team_logo"))
                 
+            }else {
+                
+                self.teamImageView.image = UIImage(named: "team_logo")
             }
             
             self.players = teamDetails.players ?? []
@@ -147,12 +152,23 @@ class TeamDetailsViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return players.count
+        return max(players.count, 1)
         
     }
     
+ 
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if players.isEmpty {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "noDataCell", for: indexPath) as! PlayersNoDataCollectionViewCell
+            
+            cell.niDataImage.image = UIImage(named: "no_data")
+
+            cell.noDataLabel.text = "No Players Found"
+            return cell
+        }
+
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "playersCell", for: indexPath) as! PlayersCollectionViewCell
         
