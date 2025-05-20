@@ -81,20 +81,5 @@ class CoreDataService{
     func isLeagueFavorite(id: Int) -> Bool {
         return getLeague(byId: id) != nil
     }
-    
-//    func deleteLeague(byId id: Int) {
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Sports")
-//        fetchRequest.predicate = NSPredicate(format: "leagueId == %d", id)
-//
-//        do {
-//            let results = try context.fetch(fetchRequest)
-//            for league in results {
-//                context.delete(league)
-//            }
-//            try context.save()
-//            print("League(s) deleted successfully")
-//        } catch {
-//            print("Failed to delete league: \(error.localizedDescription)")
-//        }
-//    }
+
 }
