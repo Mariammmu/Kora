@@ -36,7 +36,7 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
               
                 presenter.getAllFavourite()
         
-                navigationItem.title = "Favorite Leagues"
+//                navigationItem.title = "Favorite Leagues"
         
         
     }
@@ -70,7 +70,7 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.getAllFavourite() 
+        presenter.getAllFavourite()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -121,7 +121,54 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
                }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completionHandler) in
+                guard let self = self else { return }
+
+                let alert = UIAlertController(
+                    title: "Delete Favorite",
+                    message: "Are you sure you want to delete this league from favorites?",
+                    preferredStyle: .alert
+                )
+
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                    completionHandler(false)
+                }))
+
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                    let league = self.favoriteLeagues[indexPath.row] as! Sports
+                    CoreDataService.shared.deleteLeague(league: league)
+                    self.favoriteLeagues.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                    completionHandler(true)
+                }))
+
+                self.present(alert, animated: true)
+            }
+
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard reachability?.connection != .unavailable else {
+              showError(message: "No internet connection")
+              return
+          }
+
+          guard let selectedLeague = favoriteLeagues[indexPath.row] as? Sports else { return }
+
+         // let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let detailsVC = storyboard?.instantiateViewController(withIdentifier: "LeagueDetailsViewController") as? LeagueDetailsViewController {
+              
+              detailsVC.leagueKey = Int(selectedLeague.leagueId)
+              detailsVC.leagueName = selectedLeague.leagueName
+              detailsVC.leagueLogo = selectedLeague.leagueLogo
+              detailsVC.sportName = "football"
+
+              navigationController?.pushViewController(detailsVC, animated: true)
+          }
+      }
+        override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
 
@@ -157,7 +204,7 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 

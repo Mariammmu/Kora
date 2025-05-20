@@ -103,24 +103,27 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
 //    @objc func pressRightButton(){
 //        presenter?.toggleFavorite()
 //    }
+    
     @objc func pressRightButton() {
-        guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
-            showError(message: "League data is missing")
-            return
-        }
-     
-        if isFavorite {
-            if let league = CoreDataService.shared.getLeague(byId: id) {
-                CoreDataService.shared.deleteLeague(league: league)
-            }
-            isFavorite = false
-        } else {
-            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
-            isFavorite = true
-        }
-     
-        setupFavoriteButton(isFavorite: isFavorite)
-    }
+         // guard let id = leagueKey, let name = leagueName, let logo = leagueLogo else {
+          guard let id = leagueKey, let name = leagueName else {
+              showError(message: "League data is missing")
+              return
+          }
+       
+          if isFavorite {
+              if let league = CoreDataService.shared.getLeague(byId: id) {
+                  CoreDataService.shared.deleteLeague(league: league)
+              }
+              isFavorite = false
+          } else {
+              CoreDataService.shared.addLeague(id: id, name: name, logo: leagueLogo)
+              isFavorite = true
+          }
+       
+          setupFavoriteButton(isFavorite: isFavorite)
+      }
+      
 
     
     func drawUpcomingEventsSection() -> NSCollectionLayoutSection{

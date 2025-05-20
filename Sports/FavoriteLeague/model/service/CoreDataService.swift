@@ -27,11 +27,12 @@ class CoreDataService{
        let favLeague = NSManagedObject(entity: entity, insertInto: context)
         favLeague.setValue(id, forKey: "leagueId")
         favLeague.setValue(name, forKey: "leagueName")
+       
         if let logo = logo, !logo.isEmpty{
             favLeague.setValue(logo, forKey: "leagueLogo")
         } else {
             if let placeHolder = UIImage(named: "league")?.pngData()?.base64EncodedString(){
-                favLeague.setValue(placeHolder, forKey: "league")
+                favLeague.setValue(logo, forKey: "leagueLogo")
             } else{
                 favLeague.setValue("placeHolder", forKey: "league")
             }
