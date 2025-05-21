@@ -19,7 +19,11 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
     var isFavorite: Bool = false
     var leagueName: String?
     var leagueLogo: String?
+    var screenMode:String?
     
+    
+    var apiCallCount = 0
+
     
     var presenter: LeagueDetailsPresenter?
     var upcomingEvents: [Event] = []
@@ -56,16 +60,18 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
             presenter?.fetchLatestEvents(sportName: sName, leagueKey: key)
             presenter?.fetchTeams(sportName: sName, leagueKey: key)
             
-            isFavorite = CoreDataService.shared.isLeagueFavorite(id: key)
-                   setupFavoriteButton(isFavorite: isFavorite)
-
+            if let mode = screenMode, mode == "favorite" {
+                
+                navigationItem.rightBarButtonItem = nil
+                
+            } else {
+            
+                isFavorite = CoreDataService.shared.isLeagueFavorite(id: key)
+                
+                setupFavoriteButton(isFavorite: isFavorite)
+            }
         }
-//        else {
-//            showError(message: "Invalid League Key or Sport Name")
-//        }
-    
 
-        setupFavoriteButton(isFavorite: false)
     }
     
     func setActivityIndicator() {
@@ -507,4 +513,6 @@ class LeagueDetailsViewController: UIViewController, UICollectionViewDelegate, U
         present(alert, animated: true)
         
     }
+    
+
 }

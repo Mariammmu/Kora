@@ -23,13 +23,10 @@ class ViewController: UIViewController  {
         
         print("btn clicked")
         
-        if let tabBarController = storyboard?.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController {
-            
-              //tabBarController.selectedIndex = 0
-
-               tabBarController.modalPresentationStyle = .fullScreen
-               present(tabBarController, animated: true, completion: nil)
-           }
+        if let navigationController = storyboard?.instantiateViewController(withIdentifier: "MainNavController") as? UINavigationController {
+                navigationController.modalPresentationStyle = .fullScreen
+                present(navigationController, animated: true, completion: nil)
+            }
     }
 }
 

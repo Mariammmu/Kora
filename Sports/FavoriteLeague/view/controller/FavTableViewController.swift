@@ -164,6 +164,7 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
               detailsVC.leagueName = selectedLeague.leagueName
               detailsVC.leagueLogo = selectedLeague.leagueLogo
               detailsVC.sportName = "football"
+            detailsVC.screenMode = "favorite"
 
               navigationController?.pushViewController(detailsVC, animated: true)
           }

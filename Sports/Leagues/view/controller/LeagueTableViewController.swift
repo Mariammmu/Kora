@@ -85,11 +85,22 @@ class LeagueTableViewController: UITableViewController{
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return leagues.count
+        return max(leagues.count ,1 )
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if leagues.isEmpty {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "noDataCell", for: indexPath) as! LeagueNoDataTableViewCell
+          
+            cell.noDataImage.image = UIImage(named: "no_data")
+
+            cell.noDataLabel.text = "No Internet Connection"
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! LeagueTableViewCell
 
         let league = leagues[indexPath.row]
@@ -128,6 +139,9 @@ class LeagueTableViewController: UITableViewController{
         leagueDetailsVC.sportName = selectedSport
         leagueDetailsVC.leagueName = selectedLeague.leagueName
         leagueDetailsVC.leagueLogo = selectedLeague.leagueLogo
+        
+        leagueDetailsVC.screenMode = "league"
+        
         navigationController?.pushViewController(leagueDetailsVC, animated: true)
     }
     
