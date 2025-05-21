@@ -34,27 +34,37 @@ final class NetworkServiceTests: XCTestCase {
     }
     
     func testFetchLeagues_Success() {
+       
         let expectation = self.expectation(description: "Leagues Fetched")
  
         NetworkService.fetchLeagues(for: "Football") { response in
-  
+            
             XCTAssertNotNil(response, "Response should not be nil for valid sport")
+            
             XCTAssertNotNil(response?.result, "Result should contain leagues")
+            
             expectation.fulfill()
+            
         }
  
         waitForExpectations(timeout: 30, handler: nil)
     }
     
     func testFetchLeagues_InvalidSport_ReturnsNil() {
-           let expectation = self.expectation(description: "Invalid Sport")
+   
+        let expectation = self.expectation(description: "Invalid Sport")
     
-           NetworkService.fetchLeagues(for: "InvalidSportName") { response in
-               XCTAssertNil(response, "Response should be nil for invalid sport")
-               expectation.fulfill()
-           }
+        NetworkService.fetchLeagues(for: "InvalidSportName") { response in
+            
+            XCTAssertNil(response, "Response should be nil for invalid sport")
+            
+            expectation.fulfill()
+            
+        }
     
            waitForExpectations(timeout: 5, handler: nil)
-       }
+    
+    }
+    
 
 }
