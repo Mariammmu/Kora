@@ -7,18 +7,18 @@
 
 import Foundation
 
-protocol LeagueDetailsProtocol: AnyObject {
-    func setupFavoriteButton(isFavorite: Bool)
-}
+//protocol LeagueDetailsProtocol: AnyObject {
+//    func setupFavoriteButton(isFavorite: Bool)
+//}
 
 class LeagueDetailsPresenter {
     
     var view: LeagueDetailsViewController?
     
-      // var leagueId: Int?
+       var leagueId: Int?
 
-//    var leagueName: String?
-//    var leagueLogo: String?
+    var leagueName: String?
+    var leagueLogo: String?
 //
     func attachView(view: LeagueDetailsViewController) {
         
@@ -73,32 +73,26 @@ class LeagueDetailsPresenter {
             }
         }
     }
-//    func setLeagueDetails(id: Int, name: String, logo: String) {
-//            self.leagueId = id
-//            self.leagueName = name
-//            self.leagueLogo = logo
-//
-//            // Update the button on load
-//            view?.setupFavoriteButton(isFavorite: isLeagueFavorite())
-//        }
-//    
-//    func isLeagueFavorite() -> Bool {
-//        guard let id = leagueId else { return false }
-//        return CoreDataService.shared.isLeagueFavorite(id: id)
-//    }
-//
-//    func toggleFavorite() {
-//        guard let id = leagueId,
-//              let name = leagueName,
-//              let logo = leagueLogo else { return }
-//
-//        if let league = CoreDataService.shared.getLeague(byId: id) {
-//            CoreDataService.shared.deleteLeague(league: league)
-//        } else {
-//            CoreDataService.shared.addLeague(id: id, name: name, logo: logo)
-//        }
-//
-//        view?.setupFavoriteButton(isFavorite: isLeagueFavorite())
-//    }
-    
+    func setLeagueDetails(id: Int, name: String, logo: String?) {
+           self.leagueId = id
+           self.leagueName = name
+           self.leagueLogo = logo
+
+           let isFavorite = CoreDataService.shared.isLeagueFavorite(id: id)
+           view?.setupFavoriteButton(isFavorite: isFavorite)
+       }
+
+       func toggleFavorite() {
+           guard let id = leagueId, let name = leagueName else { return }
+
+           if let league = CoreDataService.shared.getLeague(byId: id) {
+               CoreDataService.shared.deleteLeague(league: league)
+           } else {
+               CoreDataService.shared.addLeague(id: id, name: name, logo: leagueLogo)
+           }
+
+           let updatedFavoriteStatus = CoreDataService.shared.isLeagueFavorite(id: id)
+           view?.setupFavoriteButton(isFavorite: updatedFavoriteStatus)
+       }
+
 }

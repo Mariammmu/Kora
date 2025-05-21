@@ -8,26 +8,21 @@
 import Foundation
 import CoreData
 
-protocol FavLeaguesViewProtocol: AnyObject {
-    func displayFavouriteLeagues(_ leagues: [NSManagedObject])
-}
+class FavLeaguePresenter {
+    weak var view: FavTableViewController?
 
-class FavLeaguePresenter{
-   // var viewController : FavTableViewController!
-    //weak
-    var view: FavLeaguesViewProtocol!
-
-    func setViewController (viewProtocol : FavLeaguesViewProtocol){
-        //self.viewController = viewController
-    
-        self.view = viewProtocol
+    func attachView(view: FavTableViewController) {
+        self.view = view
     }
-    
-    func getAllFavourite(){
-        
+
+    func fetchFavouriteLeagues() {
         let favoriteLeagues = CoreDataService.shared.getAllLeagues()
         view?.displayFavouriteLeagues(favoriteLeagues)
     }
-    
-    
+
+    func deleteLeague(at index: Int, from leagues: [NSManagedObject]) {
+        guard let leagueToDelete = leagues[index] as? Sports else { return }
+        CoreDataService.shared.deleteLeague(league: leagueToDelete)
+        fetchFavouriteLeagues()
+    }
 }

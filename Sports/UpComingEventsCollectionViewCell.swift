@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import ShimmerSwift
 
 class UpComingEventsCollectionViewCell: UICollectionViewCell {
     
@@ -23,11 +24,14 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var date: UILabel!
     
-    
+    let shimmeringView = ShimmeringView()
+
     override func awakeFromNib() {
            super.awakeFromNib()
            setupViews()
+        setupShimmerView()
        }
+    
     func setupViews() {
             
             
@@ -39,6 +43,20 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
             layer.cornerRadius = 8
     
     }
+    private func setupShimmerView() {
+          shimmeringView.frame = contentView.bounds
+          shimmeringView.contentView = contentView
+
+          let placeholderView = UIView(frame: contentView.bounds)
+          placeholderView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+          shimmeringView.contentView.addSubview(placeholderView)
+          
+          shimmeringView.isShimmering = true
+          shimmeringView.shimmerSpeed = 150
+          
+          contentView.addSubview(shimmeringView)
+      }
+    
     
     public func configure(event: Event) {
         team1Name.text = event.eventHomeTeam ?? "N/A"
@@ -57,6 +75,15 @@ class UpComingEventsCollectionViewCell: UICollectionViewCell {
         } else {
             team2Image.image = UIImage(systemName: "questionmark")
         }
+        shimmeringView.isShimmering = false
     }
+    
+    func startShimmering() {
+            shimmeringView.isShimmering = true
+        }
+
+        func stopShimmering() {
+            shimmeringView.isShimmering = false
+        }
 
 }

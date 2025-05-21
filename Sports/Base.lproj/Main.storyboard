@@ -86,12 +86,12 @@
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pX-9L-BNe">
                                             <rect key="frame" x="110" y="32" width="245" height="31"/>
-                                            <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="20"/>
-                                            <color key="textColor" red="0.21176470589999999" green="0.58039215690000001" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="24"/>
+                                            <color key="textColor" name="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="cellColor"/>
                                     <constraints>
                                         <constraint firstItem="5pX-9L-BNe" firstAttribute="top" secondItem="HCL-7D-RYj" secondAttribute="top" constant="32" id="0eJ-KG-UJY"/>
                                         <constraint firstAttribute="trailing" secondItem="5pX-9L-BNe" secondAttribute="trailing" constant="20" symbolic="YES" id="2AU-vU-Njk"/>
@@ -113,6 +113,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" name="cellColor"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <connections>
                                     <outlet property="containerView" destination="HCL-7D-RYj" id="xia-ta-rLw"/>
@@ -156,14 +157,15 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6k-ox-d3k">
                                             <rect key="frame" x="180" y="15" width="175" height="52"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" name="Baskerville-BoldItalic" family="Baskerville" pointSize="24"/>
+                                            <color key="textColor" name="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xVU-ky-9IS">
                                             <rect key="frame" x="20" y="0.0" width="62" height="80"/>
                                         </imageView>
                                     </subviews>
+                                    <color key="backgroundColor" name="cellColor"/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="xVU-ky-9IS" secondAttribute="bottom" constant="2" id="1rT-zJ-YoQ"/>
                                         <constraint firstItem="s6k-ox-d3k" firstAttribute="top" secondItem="9XK-G6-9lf" secondAttribute="top" constant="15" id="2Md-8V-gW9"/>
@@ -175,6 +177,7 @@
                                         <constraint firstAttribute="trailing" secondItem="s6k-ox-d3k" secondAttribute="trailing" constant="20" symbolic="YES" id="qtQ-4d-LBz"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" name="cellColor"/>
                                 <connections>
                                     <outlet property="containerView" destination="9XK-G6-9lf" id="vK7-4W-YYs"/>
                                     <outlet property="favLeagueImage" destination="xVU-ky-9IS" id="kUK-SA-aqL"/>
@@ -210,7 +213,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Welcome To Our Kora App ." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxk-B0-weL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome To Our Kora App ." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxk-B0-weL">
                                 <rect key="frame" x="16" y="627" width="343" height="43"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
                                 <color key="textColor" red="0.7567417622" green="0.16386136409999999" blue="0.26569336650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -221,6 +224,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Mxk-B0-weL" firstAttribute="leading" secondItem="kNp-LT-Ln1" secondAttribute="leading" constant="16" id="2WH-LL-CLF"/>
+                            <constraint firstItem="Mxk-B0-weL" firstAttribute="height" secondItem="hPS-Ph-5PZ" secondAttribute="height" multiplier="0.0529557" id="PKU-j1-P0H"/>
                             <constraint firstItem="kNp-LT-Ln1" firstAttribute="trailing" secondItem="Mxk-B0-weL" secondAttribute="trailing" constant="16" id="hGZ-Fi-VjZ"/>
                             <constraint firstItem="kNp-LT-Ln1" firstAttribute="bottom" secondItem="Mxk-B0-weL" secondAttribute="bottom" constant="108" id="vzF-Dr-6i3"/>
                         </constraints>
@@ -338,7 +342,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaO-Ys-yvV">
                                             <rect key="frame" x="24" y="222" width="183" height="43"/>
                                             <fontDescription key="fontDescription" name="Baskerville-BoldItalic" family="Baskerville" pointSize="24"/>
-                                            <color key="textColor" red="0.21176470589999999" green="0.58039215690000001" blue="0.43921568630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" name="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -353,6 +357,7 @@
                                         <constraint firstAttribute="trailing" secondItem="WaO-Ys-yvV" secondAttribute="trailing" constant="24" id="xJL-Rp-m8I"/>
                                     </constraints>
                                 </collectionViewCellContentView>
+                                <color key="backgroundColor" name="cellColor"/>
                                 <size key="customSize" width="231" height="328"/>
                                 <connections>
                                     <outlet property="sportImage" destination="8Tp-lz-f3w" id="pwg-6m-pwj"/>
@@ -475,7 +480,7 @@
                                                 <constraint firstItem="oGM-Jz-hCm" firstAttribute="centerX" secondItem="adh-R6-f4X" secondAttribute="centerX" id="wsa-Z8-DhC"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="cellColor"/>
                                         <connections>
                                             <outlet property="teamImage" destination="adh-R6-f4X" id="9co-QA-9fi"/>
                                             <outlet property="teamName" destination="oGM-Jz-hCm" id="SzB-xp-3L3"/>
@@ -625,7 +630,7 @@
                                                 <constraint firstItem="8xG-dD-Ak4" firstAttribute="centerX" secondItem="xbp-ZF-rmS" secondAttribute="centerX" id="whh-6J-OD1"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="cellColor"/>
                                         <size key="customSize" width="393" height="147"/>
                                         <connections>
                                             <outlet property="date" destination="7bD-Fn-GrX" id="VKg-Gp-RRc"/>
@@ -733,6 +738,7 @@
                                                 <constraint firstItem="NKx-3w-hgh" firstAttribute="centerX" secondItem="eji-AT-Pnd" secondAttribute="centerX" id="vYA-yX-YNT"/>
                                             </constraints>
                                         </collectionViewCellContentView>
+                                        <color key="backgroundColor" name="cellColor"/>
                                         <size key="customSize" width="388" height="90"/>
                                         <connections>
                                             <outlet property="playerAge" destination="t6V-Go-O1I" id="FO6-iP-yeX"/>
@@ -797,6 +803,9 @@
         <image name="tennis_one" width="2000" height="2000"/>
         <namedColor name="borderColor">
             <color red="0.76499998569488525" green="0.27500000596046448" blue="0.2630000114440918" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="cellColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="textColor">
             <color red="0.29399999976158142" green="0.62000000476837158" blue="0.49399998784065247" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

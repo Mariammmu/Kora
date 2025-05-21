@@ -10,7 +10,7 @@ import Reachability
 import CoreData
 import Alamofire
 
-class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
+class FavTableViewController: UITableViewController {
 
   
     var favoriteLeagues: [NSManagedObject] = [] //to receive the added leagues from leaguesDetails
@@ -20,21 +20,15 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
                 setupReachability()
 
                 
                 presenter = FavLeaguePresenter()
-                presenter.setViewController(viewProtocol: self)
+                presenter.attachView(view: self)
                 
               
-                presenter.getAllFavourite()
+                presenter.fetchFavouriteLeagues()
         
                 navigationItem.title = "Favorite Leagues"
         
@@ -45,14 +39,14 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
             reachability = try? Reachability()
             
             
-            reachability?.whenReachable = { reachability in
+        reachability?.whenReachable = { [weak self] reachability in
                 
-                self.presenter.getAllFavourite()
+                self?.presenter.fetchFavouriteLeagues()
             }
             
-            reachability?.whenUnreachable = { _ in
+            reachability?.whenUnreachable = { [weak self] _ in
               
-                self.showError(message: "No internet connection")
+                self?.showError(message: "No internet connection")
             }
             
             do {
@@ -70,7 +64,7 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter.getAllFavourite() 
+        presenter.fetchFavouriteLeagues()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -123,30 +117,27 @@ class FavTableViewController: UITableViewController, FavLeaguesViewProtocol {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completionHandler) in
-                guard let self = self else { return }
+            guard let self = self else { return }
 
-                let alert = UIAlertController(
-                    title: "Delete Favorite",
-                    message: "Are you sure you want to delete this league from favorites?",
-                    preferredStyle: .alert
-                )
+            let alert = UIAlertController(
+                title: "Delete Favorite",
+                message: "Are you sure you want to delete this league from favorites?",
+                preferredStyle: .alert
+            )
 
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-                    completionHandler(false)
-                }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                completionHandler(false)
+            }))
 
-                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                    let league = self.favoriteLeagues[indexPath.row] as! Sports
-                    CoreDataService.shared.deleteLeague(league: league)
-                    self.favoriteLeagues.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                    completionHandler(true)
-                }))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                self.presenter.deleteLeague(at: indexPath.row, from: self.favoriteLeagues)
+                completionHandler(true)
+            }))
 
-                self.present(alert, animated: true)
-            }
+            self.present(alert, animated: true)
+        }
 
-            return UISwipeActionsConfiguration(actions: [deleteAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
