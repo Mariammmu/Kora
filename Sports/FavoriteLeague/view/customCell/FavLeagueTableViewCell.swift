@@ -28,7 +28,7 @@ class FavLeagueTableViewCell: UITableViewCell {
         containerView.layer.masksToBounds = true
     }
     
-    
+
     override func layoutSubviews() {
             super.layoutSubviews()
             
@@ -39,6 +39,7 @@ class FavLeagueTableViewCell: UITableViewCell {
             contentView.layer.masksToBounds = true
         }
     
+
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

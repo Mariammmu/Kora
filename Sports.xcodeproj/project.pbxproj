@@ -437,8 +437,8 @@
 			isa = PBXGroup;
 			children = (
 				22982C0B2DCF7E0000876FC1 /* LaunchScreen.storyboard */,
-				22982C032DCF7DD600876FC1 /* Main.storyboard */,
 				228976272DDCCC42007DD851 /* onboardingController */,
+				22982C032DCF7DD600876FC1 /* Main.storyboard */,
 				220DC93C2DDE0F510020CE18 /* TabBarController.swift */,
 			);
 			path = views;
