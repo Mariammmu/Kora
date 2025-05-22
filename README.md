@@ -1,4 +1,11 @@
 # Kora
+
+
+
+https://github.com/user-attachments/assets/c1f239b7-96f5-4a3e-92f0-6af4fc14fa98
+
+
+
 Designed for performance and simplicity, Kora delivers a seamless sports experience—whether you're checking scores, planning your next watch party, or just exploring the world of leagues and teams.
 
 An iOS application developed using Swift and UIKit that allows users to explore sports leagues, view event details, team information, and manage their favorite leagues. The app is built with modern design principles and follows the MVP architecture pattern.
